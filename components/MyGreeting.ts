@@ -1,16 +1,12 @@
-import {
-    css,
-    html,
-    LitElement,
-} from "https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js";
+import {css, html, LitElement} from "@lit";
 class MyGreeting extends LitElement {
-    static properties = {
+    static override properties = {
         name: { type: String },
     };
 
     name: string;
 
-    static styles = css`
+    static override styles = css`
     div {
       font-family: sans-serif;
       font-size: 1.5rem;
@@ -25,7 +21,6 @@ class MyGreeting extends LitElement {
         this.name = "Friend";
     }
 
-    //@ts-ignore: render() override type mismatch with CDS module, but works correctly
     override render() {
         return html`<div>Hello, ${this.name} 👋</div>`;
     }

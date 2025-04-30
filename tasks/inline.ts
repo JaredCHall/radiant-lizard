@@ -1,5 +1,5 @@
-import * as esbuild from "https://deno.land/x/esbuild@v0.21.4/mod.js";
-import { denoPlugins } from "https://deno.land/x/esbuild_deno_loader@0.9.0/mod.ts";
+import * as esbuild from "@esbuild";
+import { denoPlugins } from "@deno-plugins";
 
 const result = await esbuild.build({
     entryPoints: ["main.ts"],
@@ -7,7 +7,9 @@ const result = await esbuild.build({
     format: "esm",
     minify: true,
     target: "esnext",
-    plugins: [...denoPlugins()],
+    plugins: [...denoPlugins({
+        importMapURL: new URL("../import_map.json", import.meta.url).href, // 👈 this line is crucial
+    })],
     write: false // <- key to avoid writing to disk
 });
 
