@@ -1,0 +1,23 @@
+{
+    //"importMap": "import_map.json",
+    "tasks": {
+        "build": "deno run --allow-read --allow-write --allow-net --allow-env --allow-run tasks/inline.ts"
+    },
+    "compilerOptions": {
+        "lib": ["dom", "esnext", "deno.ns"]
+    },
+    "lint": {
+        "rules": {
+            "include": ["recommended"],
+            "exclude": ["ban-ts-comment"] // allow @ts-ignore for edge cases like render()
+        }
+    },
+    "fmt": {
+        "include": [""],
+        "useTabs": false,
+        "lineWidth": 80,
+        "indentWidth": 4,
+        "semiColons": true,
+        "singleQuote": false
+    }
+}
