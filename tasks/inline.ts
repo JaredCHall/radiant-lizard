@@ -1,5 +1,6 @@
 import * as esbuild from "@esbuild";
 import { denoPlugins } from "@deno-plugins";
+import { DOMParser } from "https://deno.land/x/deno_dom/deno-dom-wasm.ts";
 
 const result = await esbuild.build({
     entryPoints: ["main.ts"],
@@ -15,12 +16,30 @@ const result = await esbuild.build({
 
 // Extract JS code from memory
 const js = result.outputFiles?.[0]?.text ?? "";
-const htmlTemplate = await Deno.readTextFile("templates/index.html");
+const html = await Deno.readTextFile("index.html");
 
-const htmlPart1 = htmlTemplate.split("__BUNDLE__")[0];
-const htmlPart2 = htmlTemplate.split("__BUNDLE__")[1];
-const finalHtml = htmlPart1 + js + htmlPart2;
-await Deno.writeTextFile("public/index.html", finalHtml);
+// Parse the DOM
+const doc = new DOMParser().parseFromString(html, "text/html");
+if (!doc) throw new Error("Failed to parse HTML.");
 
-console.log("✅ Inline build complete: dist/index.html");
+// Create a new <script> element
+const script = doc.createElement("script");
+script.setAttribute("type", "module");
+script.innerHTML = js
+
+// Replace placeholder in old script or just append cleanly
+const oldScript = doc.querySelector('script[src="./main.ts"]');
+if (oldScript) {
+    oldScript.replaceWith(script);
+} else {
+    doc.body?.appendChild(script);
+}
+
+const finalHtml = doc.documentElement?.outerHTML ?? null
+if(finalHtml === null){
+    throw new Error("Failed to parse HTML.")
+}
+await Deno.writeTextFile("portable.html", "<!DOCTYPE html>\n" + finalHtml);
+
+console.log("✅ Inline build complete: portable.html");
 Deno.exit(0);
