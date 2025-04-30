@@ -1,5 +1,5 @@
 import {css, html, LitElement} from "@lit";
-class MyGreeting extends LitElement {
+class AppMain extends LitElement {
     static override properties = {
         name: { type: String },
     };
@@ -26,6 +26,6 @@ class MyGreeting extends LitElement {
     }
 }
 
-customElements.define("my-greeting", MyGreeting);
+customElements.define("app-main", AppMain);
 
 export {};
