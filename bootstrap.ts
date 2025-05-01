@@ -12,6 +12,6 @@ export const app = new App(
       indexFile: 'index.html',
     },
     {
-      inlineJs: true,
+      inlineJs: false,
     },
 );
