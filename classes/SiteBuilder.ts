@@ -1,6 +1,6 @@
 import * as esbuild from "@esbuild"
 import { denoPlugins } from "@deno-plugins"
-import { app } from "./App.ts"
+import { app } from "@bootstrap-app"
 import {resolve, toFileUrl} from "https://deno.land/std@0.224.0/path/mod.ts"
 import { DOMParser } from "https://deno.land/x/deno_dom/deno-dom-wasm.ts"
 

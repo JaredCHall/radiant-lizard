@@ -14,21 +14,6 @@ interface BuildOptions {
   inlineJs: boolean
 }
 
-const defaultStructure: ProjectStructure = {
-  denoConf: 'deno.json',
-  importMap: 'import_map.json',
-  sourceDir: 'public',
-  entryScript: 'main.ts',
-  outputDir: 'dist',
-  bundleFile: 'bundle.js',
-  indexFile: 'index.html',
-}
-
-const defaultBuildOptions: BuildOptions = {
-  inlineJs: true,
-}
-
-
 export class App {
 
   readonly projectRoot: string
@@ -45,8 +30,8 @@ export class App {
 
   constructor(
       readonly name: string = 'RadiantLizard',
-      readonly structure: ProjectStructure = defaultStructure,
-      readonly buildOptions: BuildOptions = defaultBuildOptions,
+      readonly structure: ProjectStructure,
+      readonly buildOptions: BuildOptions,
   ) {
     this.projectRoot = resolve(fromFileUrl(new URL('..', import.meta.url)))
 
@@ -81,5 +66,3 @@ export class App {
     return resolve(this.projectRoot, relativePath)
   }
 }
-
-export const app = new App()

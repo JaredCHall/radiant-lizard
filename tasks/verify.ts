@@ -1,5 +1,4 @@
-import {app} from "../classes/App.ts";
-
+import {app} from "@bootstrap-app";
 
 const gitDiff = new Deno.Command("git", {
   args: ["diff", "--exit-code", app.paths.outputDir],
@@ -9,8 +8,6 @@ const gitDiff = new Deno.Command("git", {
 
 const proc = gitDiff.spawn()
 const status = await proc.status
-
-console.log(status)
 
 if (status.code !== 0) {
   console.error("❌ Build is out of sync. Please commit updated dist/ before pushing.")
