@@ -1,11 +1,12 @@
-import {fromFileUrl, resolve} from "https://deno.land/std@0.224.0/path/mod.ts"
+import {fromFileUrl, join, resolve} from "https://deno.land/std@0.224.0/path/mod.ts"
 
 interface ProjectStructure {
-  sourceDir: string
-  sourceMain: string
+  denoConf: string
+  importMap: string
+  inputDir: string
+  inputScript: string
   outputDir: string
-  outputJsBundle: string
-  importMapPath: string
+  outputScript: string
   indexFile: string
 }
 
@@ -17,21 +18,25 @@ export class App {
 
   readonly projectRoot: string
   readonly paths: {
-    entryPoint: string
-    index: string
-    outputDir: string
-    outputJsBundle: string
+    denoConf: string
     importMap: string
+    inputDir: string
+    inputScript: string
+    inputIndex: string
+    outputDir: string
+    outputScript: string
+    outputIndex: string
   }
 
   constructor(
       readonly name: string = 'RadiantLizard',
       readonly structure: ProjectStructure = {
-        sourceDir: 'public',
-        sourceMain: 'main.ts',
+        denoConf: 'deno.json',
+        importMap: 'import_map.json',
+        inputDir: 'public',
+        inputScript: 'main.ts',
         outputDir: 'dist',
-        outputJsBundle: 'bundle.js',
-        importMapPath: 'import_map.json',
+        outputScript: 'bundle.js',
         indexFile: 'index.html',
       },
       readonly buildOptions: BuildOptions = {
@@ -39,12 +44,26 @@ export class App {
       },
   ) {
     this.projectRoot = resolve(fromFileUrl(new URL('..', import.meta.url)))
+
+
     this.paths = {
-      entryPoint: this.realPath(this.structure.sourceMain),
-      index: this.realPath(this.structure.indexFile),
+      denoConf: this.realPath(this.structure.denoConf),
+      importMap: this.realPath(this.structure.importMap),
+      inputDir: this.realPath(this.structure.inputDir),
+      inputScript: this.realPath(this.structure.inputScript),
+      inputIndex: this.realPath(join(
+          this.structure.inputDir,
+          this.structure.indexFile
+      )),
       outputDir: this.realPath(this.structure.outputDir),
-      outputJsBundle: this.realPath(this.structure.outputJsBundle),
-      importMap: this.realPath(this.structure.importMapPath),
+      outputScript: this.realPath(join(
+          this.structure.outputDir,
+          this.structure.outputScript
+      )),
+      outputIndex: this.realPath(join(
+          this.structure.inputDir,
+          this.structure.indexFile
+      )),
     }
 
     // freeze objects to make them truly immutable
@@ -58,5 +77,6 @@ export class App {
     return resolve(this.projectRoot, relativePath)
   }
 }
+
 
 export const app = new App()

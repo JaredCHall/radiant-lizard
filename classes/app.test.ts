@@ -11,11 +11,11 @@ Deno.test("App initializes with default configuration", () => {
 
   // Verify default structure
   assertEquals(app.structure, {
-    sourceDir: 'public',
-    sourceMain: 'main.ts',
+    inputDir: 'public',
+    inputScript: 'main.ts',
     outputDir: 'dist',
-    outputJsBundle: 'bundle.js',
-    importMapPath: 'import_map.json',
+    outputScript: 'bundle.js',
+    importMap: 'import_map.json',
     indexFile: 'index.html',
   })
 
@@ -25,21 +25,21 @@ Deno.test("App initializes with default configuration", () => {
   })
 
   // Verify resolved paths
-  assertEquals(app.paths.entryPoint, resolve(expectedRoot, "main.ts"))
-  assertEquals(app.paths.index, resolve(expectedRoot, "index.html"))
+  assertEquals(app.paths.inputScript, resolve(expectedRoot, "main.ts"))
+  assertEquals(app.paths.inputIndex, resolve(expectedRoot, "index.html"))
   assertEquals(app.paths.outputDir, resolve(expectedRoot, "dist"))
-  assertEquals(app.paths.outputJsBundle, resolve(expectedRoot, "bundle.js"))
+  assertEquals(app.paths.outputScript, resolve(expectedRoot, "bundle.js"))
   assertEquals(app.paths.importMap, resolve(expectedRoot, "import_map.json"))
 
 })
 
 Deno.test("App respects custom project structure and options", () => {
   const app = new App("TestApp", {
-    sourceDir: "src",
-    sourceMain: "entry.ts",
+    inputDir: "src",
+    inputScript: "entry.ts",
     outputDir: "build",
-    outputJsBundle: "main.bundle.js",
-    importMapPath: "import-map.json",
+    outputScript: "main.bundle.js",
+    importMap: "import-map.json",
     indexFile: "home.html",
   }, {
     inlineJs: true
@@ -49,10 +49,10 @@ Deno.test("App respects custom project structure and options", () => {
   assertEquals(app.buildOptions.inlineJs, true)
 
   const root = app.projectRoot
-  assertEquals(app.paths.entryPoint, resolve(root, "entry.ts"))
-  assertEquals(app.paths.index, resolve(root, "home.html"))
+  assertEquals(app.paths.inputScript, resolve(root, "entry.ts"))
+  assertEquals(app.paths.inputIndex, resolve(root, "home.html"))
   assertEquals(app.paths.outputDir, resolve(root, "build"))
-  assertEquals(app.paths.outputJsBundle, resolve(root, "main.bundle.js"))
+  assertEquals(app.paths.outputScript, resolve(root, "main.bundle.js"))
   assertEquals(app.paths.importMap, resolve(root, "import-map.json"))
 })
 
@@ -60,7 +60,7 @@ Deno.test("App paths and config are frozen", () => {
   const app = new App()
 
   assertThrows(() => {
-    app.paths.index = "/somewhere/else.html"
+    app.paths.inputIndex = "/somewhere/else.html"
   }, TypeError)
 
   assertThrows(() => {

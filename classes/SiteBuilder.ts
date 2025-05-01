@@ -1,12 +1,13 @@
 import * as esbuild from "@esbuild"
 import { denoPlugins } from "@deno-plugins"
 import { app } from "./App.ts"
+import { toFileUrl } from "https://deno.land/std@0.224.0/path/mod.ts"
 
 export class SiteBuilder {
   async build(): Promise<void> {
     console.log("%c🚧 Starting build process...", "color: cyan; font-weight: bold")
 
-    const entryPath = app.paths.entryPoint
+    const entryPath = app.paths.inputScript
     await this.assertFileExists(entryPath, "Entry point")
 
     const compiledJs = await this.getEsBuildOutput()
@@ -15,13 +16,13 @@ export class SiteBuilder {
     if (app.buildOptions.inlineJs) {
       console.log("%c🧬 Inlining JavaScript into HTML (inlineJs = true)", "color: orange")
       const modifiedHtml = await this.injectCompiledJavascript(compiledJs)
-      const htmlPath = app.paths.index
+      const htmlPath = app.paths.inputIndex
       await Deno.writeTextFile(htmlPath, modifiedHtml)
       console.log(`%c📄 Wrote inlined HTML to ${htmlPath}`, "color: green")
       return
     }
 
-    const jsPath = app.paths.outputJsBundle
+    const jsPath = app.paths.outputScript
     await Deno.writeTextFile(jsPath, compiledJs)
     console.log(`%c📦 Wrote compiled JavaScript to ${jsPath}`, "color: green")
 
@@ -30,13 +31,13 @@ export class SiteBuilder {
 
   protected async getEsBuildOutput(): Promise<string> {
     const result = await esbuild.build({
-      entryPoints: [app.paths.entryPoint],
+      entryPoints: [app.paths.inputScript],
       bundle: true,
       format: "esm",
       minify: true,
       target: "esnext",
       plugins: [...denoPlugins({
-        importMapURL: app.paths.importMap, // 👈 this line is crucial
+        importMapURL: toFileUrl(app.paths.importMap).href, // 👈 this line is crucial
       })],
       write: false
     })
@@ -45,7 +46,7 @@ export class SiteBuilder {
   }
 
   protected async injectCompiledJavascript(compiledJs: string): Promise<string> {
-    const html = await Deno.readTextFile(app.paths.index)
+    const html = await Deno.readTextFile(app.paths.inputIndex)
 
     const doc = new DOMParser().parseFromString(html, "text/html")
     if (!doc) throw new Error("Failed to parse HTML.")
@@ -54,9 +55,9 @@ export class SiteBuilder {
     script.setAttribute("type", "module")
     script.innerHTML = compiledJs
 
-    const oldScript = doc.querySelector(`script[src="./${app.structure.outputJsBundle}"]`)
+    const oldScript = doc.querySelector(`script[src="./${app.structure.outputScript}"]`)
     if (!oldScript) {
-      throw new Error(`index.html does not contain a script tag with src="./${app.structure.outputJsBundle}"`)
+      throw new Error(`index.html does not contain a script tag with src="./${app.structure.outputScript}"`)
     }
     oldScript.replaceWith(script)
 
