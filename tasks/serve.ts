@@ -1,20 +1,11 @@
-import { serveDir } from "https://deno.land/std@0.224.0/http/file_server.ts";
+import {DevServer} from "../classes/DevServer.ts";
+import {app} from "@bootstrap-app";
 
-Deno.serve({ port: 8000, hostname: "127.0.0.1" }, async (req) => {
-  const url = new URL(req.url);
-  const pathname = url.pathname;
+const server = new DevServer(
+    "127.0.0.1",
+    4280,
+    app
+)
+server.start();
 
-  // Serve index.html manually
-  if (pathname === "/") {
-    const file = await Deno.readFile("dist/index.html");
-    return new Response(file, {
-      headers: { "content-type": "text/html" },
-    });
-  }
-
-  // Fallback to static file server
-  return serveDir(req, {
-    fsRoot: "dist",
-    urlRoot: "",
-  });
-});
+await server.openInBrowser();
