@@ -36,6 +36,10 @@ export class SiteBuilder {
     await this.cleanOutputDir()
     console.log('%c📂 Output folder cleared',"color: gray")
 
+    // copy static resources
+    console.log("%c🗂 Copying static resources...", "color: gray")
+    await this.copyStaticResources()
+
     // always need the compiled JavaScript
     const compiledJs = await this.getEsBuildOutput()
     console.log("%c✅ JavaScript successfully compiled by esbuild.", "color: green")
@@ -53,8 +57,7 @@ export class SiteBuilder {
         break
     }
 
-    console.log("%c🗂 Copying static resources...", "color: gray")
-    await this.copyStaticResources()
+
 
     console.log(`%c📦 Bundle written to ${app.paths.outputDir}`, "color: green")
     Deno.exit(0)
