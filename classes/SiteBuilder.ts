@@ -2,6 +2,7 @@ import * as esbuild from "@esbuild"
 import { denoPlugins } from "@deno-plugins"
 import { app } from "./App.ts"
 import {resolve, toFileUrl} from "https://deno.land/std@0.224.0/path/mod.ts"
+import { DOMParser } from "https://deno.land/x/deno_dom/deno-dom-wasm.ts"
 
 const esbuildOptions = {
   entryPoints: [app.paths.inputScript],
@@ -31,14 +32,18 @@ export class SiteBuilder {
     await this.assertFileExists(app.paths.inputScript, "Entry point")
     await this.assertFileExists(app.paths.inputIndex, "Index File")
 
+    // ensure the output directory exists and is empty
+    await this.cleanOutputDir()
+    console.log('%c📂 Output folder cleared',"color: gray")
+
     // always need the compiled JavaScript
     const compiledJs = await this.getEsBuildOutput()
     console.log("%c✅ JavaScript successfully compiled by esbuild.", "color: green")
 
-    // branching logic
+    // main branching logic
     switch(app.buildOptions.inlineJs) {
       case true:
-        // inline the javascript in index file
+        // use inlined javascript
         console.log("%c🧬 Inlining JavaScript into HTML (inlineJs = true)", "color: orange")
         await this.injectCompiledJavascript(app.paths.inputIndex, app.paths.outputIndex, compiledJs)
         break
@@ -116,7 +121,20 @@ export class SiteBuilder {
     }
   }
 
-  // run esbuild bundler and return the compiled javascript, throw if result is empty
+  // cleans / recreates the output directory
+  protected async cleanOutputDir(): Promise<void> {
+    try {
+      await Deno.remove(app.paths.outputDir, { recursive: true })
+    } catch (err) {
+      if (!(err instanceof Deno.errors.NotFound)) {
+        throw err
+      }
+    }
+    await Deno.mkdir(app.paths.outputDir, { recursive: true })
+  }
+
+
+  // run esbuild bundler and return the compiled javascript, throw if the result is empty
   protected async getEsBuildOutput(): Promise<string> {
     const result = await esbuild.build(esbuildOptions)
     const compiledJS = result.outputFiles?.[0]?.text ?? null
@@ -139,9 +157,8 @@ export class SiteBuilder {
    */
   protected async injectCompiledJavascript(inputIndex: string, outputIndex: string, compiledJs: string): Promise<void> {
 
-    const oldHtml = await Deno.readTextFile(inputIndex)
-
-    const doc = new DOMParser().parseFromString(oldHtml, "text/html")
+    const parser = new DOMParser()
+    const doc = parser.parseFromString(await Deno.readTextFile(inputIndex), "text/html")
     if (!doc) throw new Error("Failed to parse HTML.")
 
     const newScriptTag = doc.createElement("script")
@@ -162,7 +179,27 @@ export class SiteBuilder {
     await Deno.writeTextFile(outputIndex,  "<!DOCTYPE html>\n" + finalHtml)
   }
 
-  // check if path exists, or exit with a clean and readable error message
+  public async verifyBuildCommit(): Promise<void> {
+    const gitDiff = new Deno.Command("git", {
+      args: ["diff", "--exit-code", "dist/"],
+      stdout: "null",
+      stderr: "null"
+    })
+
+    const proc = gitDiff.spawn()
+    const status = await proc.status
+
+    if (status.code !== 0) {
+      console.error("❌ Build output is out of sync. Please commit updated dist/ before pushing.")
+      Deno.exit(1)
+    }
+
+    console.log("%c✅ JavaScript successfully compiled by esbuild.", "color: green")
+    Deno.exit(0)
+  }
+
+
+  // check if the path exists, or exit with a clean and readable error message
   protected async assertFileExists(path: string, label: string): Promise<void> {
     try {
       await Deno.stat(path)

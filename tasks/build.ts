@@ -1,3 +1,3 @@
-import {SiteBuilder} from "../classes/SiteBuilder.ts";
+import { SiteBuilder } from "../classes/SiteBuilder.ts"
 
-new SiteBuilder().build();
+await new SiteBuilder().build()

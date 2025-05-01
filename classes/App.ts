@@ -25,7 +25,7 @@ const defaultStructure: ProjectStructure = {
 }
 
 const defaultBuildOptions: BuildOptions = {
-  inlineJs: false,
+  inlineJs: true,
 }
 
 
@@ -65,7 +65,7 @@ export class App {
           this.structure.bundleFile
       )),
       outputIndex: this.realPath(join(
-          this.structure.sourceDir,
+          this.structure.outputDir,
           this.structure.indexFile
       )),
     }
