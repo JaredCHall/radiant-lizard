@@ -11,10 +11,10 @@ Deno.test("App initializes with default configuration", () => {
 
   // Verify default structure
   assertEquals(app.structure, {
-    inputDir: 'public',
-    inputScript: 'main.ts',
+    sourceDir: 'public',
+    entryScript: 'main.ts',
     outputDir: 'dist',
-    outputScript: 'bundle.js',
+    bundleFile: 'bundle.js',
     importMap: 'import_map.json',
     indexFile: 'index.html',
   })
@@ -35,10 +35,10 @@ Deno.test("App initializes with default configuration", () => {
 
 Deno.test("App respects custom project structure and options", () => {
   const app = new App("TestApp", {
-    inputDir: "src",
-    inputScript: "entry.ts",
+    sourceDir: "src",
+    entryScript: "entry.ts",
     outputDir: "build",
-    outputScript: "main.bundle.js",
+    bundleFile: "main.bundle.js",
     importMap: "import-map.json",
     indexFile: "home.html",
   }, {
