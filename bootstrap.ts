@@ -1,5 +1,4 @@
 import {App} from "./classes/App.ts";
-console.log("Bootstrapping...");
 export const app = new App(
     "Radiant Lizard",
     {

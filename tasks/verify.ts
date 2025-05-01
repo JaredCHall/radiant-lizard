@@ -10,7 +10,7 @@ const proc = gitDiff.spawn()
 const status = await proc.status
 
 if (status.code !== 0) {
-  console.error("❌ Build is out of sync. Please commit updated dist/ before pushing.")
+  console.error("%c❌ Build is out of sync. Please commit updated dist/ before pushing.","color: indianred; font-weight: bold")
   Deno.exit(1)
 }
 
