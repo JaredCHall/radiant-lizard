@@ -1,7 +1,78 @@
 {
   "version": "4",
+  "specifiers": {
+    "jsr:@b-fuze/deno-dom@*": "0.1.49",
+    "jsr:@luca/esbuild-deno-loader@*": "0.11.1",
+    "jsr:@std/bytes@^1.0.2": "1.0.5",
+    "jsr:@std/cli@^1.0.17": "1.0.17",
+    "jsr:@std/encoding@^1.0.10": "1.0.10",
+    "jsr:@std/encoding@^1.0.5": "1.0.10",
+    "jsr:@std/fmt@^1.0.7": "1.0.7",
+    "jsr:@std/html@^1.0.3": "1.0.3",
+    "jsr:@std/http@*": "1.0.15",
+    "jsr:@std/media-types@^1.1.0": "1.1.0",
+    "jsr:@std/net@^1.0.4": "1.0.4",
+    "jsr:@std/path@*": "1.0.9",
+    "jsr:@std/path@^1.0.6": "1.0.9",
+    "jsr:@std/path@^1.0.9": "1.0.9",
+    "jsr:@std/streams@^1.0.9": "1.0.9"
+  },
+  "jsr": {
+    "@b-fuze/deno-dom@0.1.49": {
+      "integrity": "45c40175fdd1e74ab2d4b54c4fdaabbad6e5b76ee28df12a48e076b3fa7901a9"
+    },
+    "@luca/esbuild-deno-loader@0.11.1": {
+      "integrity": "dc020d16d75b591f679f6b9288b10f38bdb4f24345edb2f5732affa1d9885267",
+      "dependencies": [
+        "jsr:@std/bytes",
+        "jsr:@std/encoding@^1.0.5",
+        "jsr:@std/path@^1.0.6"
+      ]
+    },
+    "@std/bytes@1.0.5": {
+      "integrity": "4465dd739d7963d964c809202ebea6d5c6b8e3829ef25c6a224290fbb8a1021e"
+    },
+    "@std/cli@1.0.17": {
+      "integrity": "e15b9abe629e17be90cc6216327f03a29eae613365f1353837fa749aad29ce7b"
+    },
+    "@std/encoding@1.0.10": {
+      "integrity": "8783c6384a2d13abd5e9e87a7ae0520a30e9f56aeeaa3bdf910a3eaaf5c811a1"
+    },
+    "@std/fmt@1.0.7": {
+      "integrity": "2a727c043d8df62cd0b819b3fb709b64dd622e42c3b1bb817ea7e6cc606360fb"
+    },
+    "@std/html@1.0.3": {
+      "integrity": "7a0ac35e050431fb49d44e61c8b8aac1ebd55937e0dc9ec6409aa4bab39a7988"
+    },
+    "@std/http@1.0.15": {
+      "integrity": "435a4934b4e196e82a8233f724da525f7b7112f3566502f28815e94764c19159",
+      "dependencies": [
+        "jsr:@std/cli",
+        "jsr:@std/encoding@^1.0.10",
+        "jsr:@std/fmt",
+        "jsr:@std/html",
+        "jsr:@std/media-types",
+        "jsr:@std/net",
+        "jsr:@std/path@^1.0.9",
+        "jsr:@std/streams"
+      ]
+    },
+    "@std/media-types@1.1.0": {
+      "integrity": "c9d093f0c05c3512932b330e3cc1fe1d627b301db33a4c2c2185c02471d6eaa4"
+    },
+    "@std/net@1.0.4": {
+      "integrity": "2f403b455ebbccf83d8a027d29c5a9e3a2452fea39bb2da7f2c04af09c8bc852"
+    },
+    "@std/path@1.0.9": {
+      "integrity": "260a49f11edd3db93dd38350bf9cd1b4d1366afa98e81b86167b4e3dd750129e"
+    },
+    "@std/streams@1.0.9": {
+      "integrity": "a9d26b1988cdd7aa7b1f4b51e1c36c1557f3f252880fa6cc5b9f37078b1a5035"
+    }
+  },
   "redirects": {
     "https://deno.land/x/deno_dom/deno-dom-wasm.ts": "https://deno.land/x/deno_dom@v0.1.49/deno-dom-wasm.ts",
+    "https://deno.land/x/esbuild/mod.js": "https://deno.land/x/esbuild@v0.25.3/mod.js",
     "https://esm.sh/@lit/reactive-element@^2.1.0?target=denonext": "https://esm.sh/@lit/reactive-element@2.1.0?target=denonext",
     "https://esm.sh/lit": "https://esm.sh/lit@3.3.0",
     "https://esm.sh/lit-element@^4.2.0/lit-element?target=denonext": "https://esm.sh/lit-element@4.2.0/lit-element?target=denonext",
@@ -315,6 +386,7 @@
     "https://deno.land/x/denoflate@1.2.1/pkg/denoflate.js": "b9f9ad9457d3f12f28b1fb35c555f57443427f74decb403113d67364e4f2caf4",
     "https://deno.land/x/denoflate@1.2.1/pkg/denoflate_bg.wasm.js": "d581956245407a2115a3d7e8d85a9641c032940a8e810acbd59ca86afd34d44d",
     "https://deno.land/x/esbuild@v0.21.4/mod.js": "2baa2fee0098fe9cec9c1a5e66e394afce85ccb966a9be52d7c617ea5c67769f",
+    "https://deno.land/x/esbuild@v0.25.3/mod.js": "4dcb56f4027ffbb46819a8d871de13b122bd7b0e619d5cbca101412fbee117c9",
     "https://deno.land/x/esbuild_deno_loader@0.9.0/deps.ts": "08972bc7edd45e9e57cfc9f9a8628957c58913dcc96273806d7c228edbb7711f",
     "https://deno.land/x/esbuild_deno_loader@0.9.0/mod.ts": "00decaf22c0fec5d80724f0bb48caeafe936f5f75e31bb1138a970961fac0bbd",
     "https://deno.land/x/esbuild_deno_loader@0.9.0/src/deno.ts": "bd423a6d8724152e9d6187adcb46139462b1328f81f92ae803733a7c0b202812",
@@ -337,5 +409,13 @@
     "https://esm.sh/lit-html@3.3.0?target=denonext": "498dedd3f2abfe07f86d9f39619088f4f69b1101052715937f846d47a0b22d55",
     "https://esm.sh/lit@3.3.0": "0305087dc5d434438074f8249faf2969428f52f2e55d9d7cd1d9b0d1206269d9",
     "https://esm.sh/lit@3.3.0/denonext/lit.mjs": "a972e70a2565ff18a6c0d3dc532cee4905c8c89a862bc463baa59f8e4a271523"
+  },
+  "workspace": {
+    "dependencies": [
+      "jsr:@b-fuze/deno-dom@*",
+      "jsr:@luca/esbuild-deno-loader@*",
+      "jsr:@std/http@*",
+      "jsr:@std/path@*"
+    ]
   }
 }

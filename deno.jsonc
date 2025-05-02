@@ -1,5 +1,15 @@
 {
-    "importMap": "import_map.json",
+    "imports": {
+        "@lit": "https://esm.sh/lit",
+        "@esbuild": "https://deno.land/x/esbuild/mod.js",
+        "@deno-plugins": "jsr:@luca/esbuild-deno-loader",
+        "@components" : "./components",
+        "@classes" : "./classes",
+        "@bootstrap-app" : "./bootstrap.ts",
+        "@path" : "jsr:@std/path",
+        "@deno-dom" : "jsr:@b-fuze/deno-dom",
+        "@file-server" : "jsr:@std/http/file-server"
+    },
     "tasks": {
         "build": "deno run --location=http://localhost --allow-read --allow-write --allow-net --allow-env --allow-run tasks/build.ts",
         "serve": "deno run --allow-run --allow-read --allow-net tasks/serve.ts",

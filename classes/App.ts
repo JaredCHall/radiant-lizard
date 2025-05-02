@@ -1,8 +1,7 @@
-import {fromFileUrl, join, resolve} from "https://deno.land/std@0.224.0/path/mod.ts"
+import {fromFileUrl, join, resolve} from "@path"
 
 interface ProjectStructure {
   denoConf: string
-  importMap: string
   sourceDir: string
   entryScript: string
   outputDir: string
@@ -19,7 +18,6 @@ export class App {
   readonly projectRoot: string
   readonly paths: {
     denoConf: string
-    importMap: string
     inputDir: string
     inputScript: string
     inputIndex: string
@@ -37,7 +35,6 @@ export class App {
 
     this.paths = {
       denoConf: this.realPath(this.structure.denoConf),
-      importMap: this.realPath(this.structure.importMap),
       inputDir: this.realPath(this.structure.sourceDir),
       inputScript: this.realPath(this.structure.entryScript),
       inputIndex: this.realPath(join(

@@ -1,8 +1,8 @@
 import * as esbuild from "@esbuild"
 import { denoPlugins } from "@deno-plugins"
 import { app } from "@bootstrap-app"
-import {resolve, toFileUrl} from "https://deno.land/std@0.224.0/path/mod.ts"
-import { DOMParser } from "https://deno.land/x/deno_dom/deno-dom-wasm.ts"
+import { resolve } from "@path";
+import { DOMParser } from "@deno-dom"
 
 const esbuildOptions = {
   entryPoints: [app.paths.inputScript],
@@ -10,9 +10,7 @@ const esbuildOptions = {
   format: "esm", // format output as ESM modules
   minify: true, // minify the bundle
   target: "esnext", // emit modern javascript. no transpile / backport
-  plugins: [...denoPlugins({
-    importMapURL: toFileUrl(app.paths.importMap).href, // tell esbuild about the import map
-  })],
+  plugins: [...denoPlugins()],
   write: false // do not write the output to a file, just return it in RAM
 }
 
