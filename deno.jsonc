@@ -1,7 +1,9 @@
 {
     "importMap": "import_map.json",
     "tasks": {
-        "build": "deno run --allow-read --allow-write --allow-net --allow-env --allow-run tasks/inline.ts"
+        "build": "deno run --location=http://localhost --allow-read --allow-write --allow-net --allow-env --allow-run tasks/build.ts",
+        "serve": "deno run --allow-run --allow-read --allow-net tasks/serve.ts",
+        "verify": "deno run build; deno run --allow-read --allow-run --allow-env tasks/verify.ts"
     },
     "compilerOptions": {
         "lib": ["dom", "esnext", "deno.ns"]

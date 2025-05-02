@@ -9,5 +9,8 @@
         "checkJs": false,
         "isolatedModules": true
     },
-    "include": ["components/*.ts"]
+    "include": [
+        "components/*.ts",
+        "classes/*.ts"
+    ],
 }

@@ -1,2 +1,4 @@
 .idea
-portable.html
+
+# images are purely static so no need to archive them
+dist/images

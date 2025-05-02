@@ -1,1 +1,1 @@
-import "./components/AppMain.ts";
+import "./components/LitMain.ts";
