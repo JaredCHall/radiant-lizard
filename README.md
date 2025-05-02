@@ -12,8 +12,6 @@ Static site generator with all the conveniences of modern javascript.
 ### TODO
 
 Phase 1:
-- Add dev http server
-- Add http-server deploy
 - Tinker with linting and formating
 
 Phase 2:
